@@ -17,12 +17,21 @@
 package org.filippodeluca.ssoup
 
 import org.jsoup.nodes.Node
+import collection.JavaConverters._
 
-class RichNode(value: Node) {
+class RichNode(node: Node) {
 
-  def nextSibling: Option[Node] = value.nextSibling match {
-    case null => None
+  def siblingNodes: Iterable[Node] = node.siblingNodes.asScala
+
+  def nextSiblingOpt: Option[Node] = Option(node.nextSibling)
+
+  def previousSibling: Option[Node] = Option(node.previousSibling)
+
+  def attrOpt(name: String): Option[String] = node.attr(name) match {
+    case "" => None
     case x => Some(x)
   }
+
+  def apply(name: String): String = attrOpt(name).get
 
 }

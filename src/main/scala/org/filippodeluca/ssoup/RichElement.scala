@@ -17,24 +17,20 @@
 package org.filippodeluca.ssoup
 
 import org.jsoup.nodes.Element
+import scala.util.matching.Regex
 
 class RichElement(value: Element) extends RichNode(value) {
+
+  def idOpt = value.id match {
+    case "" => None
+    case x => Some(x)
+  }
 
   def getElementById(id: String): Option[Element] = value.getElementById(id) match {
     case null => None
     case x => Some(x)
   }
 
-  def getElementsByTag(tag: String): Iterable[Element] = SSoup.enrichElements(value.getElementsByTag(tag))
-
-  def getElementsByClass(tag: String): Iterable[Element] = SSoup.enrichElements(value.getElementsByClass(tag))
-
-  def getElementsByAttribute(tag: String): Iterable[Element] = SSoup.enrichElements(value.getElementsByAttribute(tag))
-
-  def getElementsByAttributeStarting(tag: String): Iterable[Element] = SSoup.enrichElements(value.getElementsByAttributeStarting(tag))
-
-  def getElementsByAttributeValue(k: String, v: String): Iterable[Element] = SSoup.enrichElements(value.getElementsByAttributeValue(k, v))
-
-  def apply(name: String): Option[String] = Option(value.attr(name))
+  def getElementsByAttributeValueMatching(k: String, v: Regex): Iterable[Element] = SSoup.enrichElements(value.getElementsByAttributeValueMatching(k, v.pattern))
 
 }

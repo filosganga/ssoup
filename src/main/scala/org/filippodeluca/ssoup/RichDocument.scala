@@ -16,16 +16,17 @@
 
 package org.filippodeluca.ssoup
 
-import org.jsoup.nodes.Document
+import org.jsoup.nodes.{Element, Document}
+
 
 class RichDocument(value: Document) extends RichElement(value) {
 
-  def head = value.head match {
+  def headOpt: Option[Element] = value.head match {
     case null => None
     case x => Some(x)
   }
 
-  def body = value.body match {
+  def bodyOpt: Option[Element] = value.body match {
     case null => None
     case x => Some(x)
   }

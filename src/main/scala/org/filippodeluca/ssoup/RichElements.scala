@@ -27,4 +27,14 @@ class RichElements(target: Elements) extends Iterable[Element] {
     target.asScala.iterator
   }
 
+  def attrOpt(key: String): Option[String] = target.attr(key) match {
+    case "" => None
+    case x => Some(x)
+  }
+
+  def valOpt = target.`val`() match {
+    case "" => None
+    case x => Some(x)
+  }
+
 }
